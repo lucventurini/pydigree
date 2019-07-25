@@ -1,3 +1,5 @@
+#cython: language_level=3
+
 from collections import Sequence
 from libc.stdint cimport uint32_t, uint8_t, int8_t
 from libc.stdio cimport printf
@@ -7,7 +9,7 @@ import numpy as np
 
 DEF MAX_HEIGHT=30
 
-cdef inline bint sparse_val_compare(sparse_val a, sparse_val b, int op):
+cdef bint sparse_val_compare(sparse_val a, sparse_val b, int op):
     # <   0
     # ==  2
     # >   4

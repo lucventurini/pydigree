@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A program that calculates kinship and inbreeding coefficents for a 
 specified pedigree file

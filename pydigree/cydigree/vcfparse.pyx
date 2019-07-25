@@ -1,3 +1,5 @@
+#cython: language_level=3
+
 from libc.string cimport strsep, strcmp, strlen
 from libc.stdlib cimport atoi, free
 from libc.stdint cimport int8_t, uint32_t

@@ -28,7 +28,11 @@ class Individual(object):
         else:
             self.label = None
         self.father = father
+        if self.father == '0':
+            self.father = None
         self.mother = mother
+        if self.mother == '0':
+            self.mother = None
         self.sex = sex  # 0:M 1:F
         self.pedigree = None
         self.genotypes = None
@@ -69,8 +73,10 @@ class Individual(object):
         ''' Inform the parent Individuals that this is their child '''
         if self.is_founder():
             return
-        self.father.register_child(self)
-        self.mother.register_child(self)
+        if self.father is not None:
+            self.father.register_child(self)
+        if self.mother is not None:
+            self.mother.register_child(self)
 
     @property
     def full_label(self):
@@ -253,7 +259,15 @@ class Individual(object):
     #
     def is_founder(self):
         """ Returns true if individual is a founder """
-        return self.father is None and self.mother is None
+        try:
+            father_unknown = (self.father is None)
+        except RecursionError as err:
+            raise RecursionError("{}\t{}\n{}".format(self.label, self.father, err))
+        try:
+            mother_uknown = (self.mother is None)
+        except RecursionError as err:
+            raise RecursionError("{}\t{}\n{}".format(self.label, self.mother, err))        
+        return father_unknown and father_unknown
 
     def is_marryin_founder(self):
         """
@@ -351,15 +365,21 @@ class Individual(object):
         :returns: Indiviual depth
         :rtype: integer
         """
+        try:
+            is_found = self.is_founder()
+        except RecursionError as err:
+            raise RecursionError("{}\n{}".format(self.label, err))
         if self.is_founder():
             return 0
         elif 'depth' in self.attrib:
             return self.attrib['depth']
         else:
-            d = 1 + max(self.father.depth, self.mother.depth)
+            father_depth = 0 if self.father is None else self.father.depth
+            mother_depth = 0 if self.mother is None else self.mother.depth
+            d = 1 + max(father_depth, mother_depth)
             self.attrib['depth'] = d
             return d
-
+            
     def remove_ancestry(self):
         """
         Removes ancestry: makes a person a founder. Cannot be used on an

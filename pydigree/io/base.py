@@ -68,9 +68,9 @@ def connect_individuals(pop):
 
     for ind in pop.individuals:   
         fam, _ = ind.label
-        
-        ind.father = pop[(fam, ind.father)] if ind.father != '0' else None
-        ind.mother = pop[(fam, ind.mother)] if ind.mother != '0' else None
+
+        ind.father = None if ind.father in ('0', None) else pop[(fam, ind.father)]            
+        ind.mother = None if ind.mother in ('0', None) else pop[(fam, ind.mother)]
 
         ind.register_with_parents()
 

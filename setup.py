@@ -3,6 +3,7 @@
 import sys
 import os
 import os.path
+import glob
 
 if sys.version_info[0:2] < (3, 3):
     print("Pydigree requires Python 3.2 or higher", file=sys.stderr)
@@ -83,4 +84,6 @@ setup(
     packages=find_packages(),
     ext_modules=cythonize([cyext, dsext, vcfext, sparray2]),
     requires=lib_requirements,
-    classifiers=lib_class)
+    classifiers=lib_class,
+    scripts=glob.glob(os.path.join("scripts", "*"))
+)

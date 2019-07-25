@@ -1,3 +1,5 @@
+#cython: language_level=3
+
 from collections import Sequence
 
 from cython.operator cimport dereference as deref, preincrement as inc
