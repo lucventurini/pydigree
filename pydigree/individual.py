@@ -264,10 +264,10 @@ class Individual(object):
         except RecursionError as err:
             raise RecursionError("{}\t{}\n{}".format(self.label, self.father, err))
         try:
-            mother_uknown = (self.mother is None)
+            mother_unknown = (self.mother is None)
         except RecursionError as err:
             raise RecursionError("{}\t{}\n{}".format(self.label, self.mother, err))        
-        return father_unknown and father_unknown
+        return father_unknown and mother_unknown
 
     def is_marryin_founder(self):
         """
